@@ -12,16 +12,28 @@ import RealmSwift
 class Person: Object {
     @objc dynamic var id = UUID().uuidString
     @objc dynamic var name: String = ""
-    //    @objc dynamic var height = ""
-    //    @objc dynamic var mass = ""
-    //    @objc dynamic var hairColor = ""
-    //    @objc dynamic var skinColor = ""
-    //    @objc dynamic var eyeColor = ""
-    //    @objc dynamic var birthYear = ""
-    //    @objc dynamic var gender = ""
-    //
+    @objc dynamic var height: String = ""
+    @objc dynamic var mass: String = ""
+    @objc dynamic var hairColor: String = ""
+    @objc dynamic var skinColor: String = ""
+    @objc dynamic var eyeColor: String = ""
+    @objc dynamic var birthYear: String = ""
+    @objc dynamic var gender: String = ""
+    
     override public static func primaryKey() -> String? {
         return "id"
+    }
+    
+    convenience init(from person: APIPerson) {
+        self.init()
+        self.name = person.name
+        self.height = person.height
+        self.mass = person.mass
+        self.hairColor = person.hairColor
+        self.skinColor = person.skinColor
+        self.eyeColor = person.eyeColor
+        self.birthYear = person.birthYear
+        self.gender = person.gender
     }
 }
 

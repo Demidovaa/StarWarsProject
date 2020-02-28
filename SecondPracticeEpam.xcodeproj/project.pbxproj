@@ -63,6 +63,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		866C9E4124085C9A006489F9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				86C72D5E23F763710024C280 /* NetworkManager.swift */,
+				866C9E3D2407DD86006489F9 /* DatabaseService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		86C72D3723F6D4900024C280 = {
 			isa = PBXGroup;
 			children = (
@@ -90,8 +99,7 @@
 				866C9E3B2407DD3D006489F9 /* Main.storyboard */,
 				86C72D4E23F6D4930024C280 /* LaunchScreen.storyboard */,
 				86C72D5123F6D4930024C280 /* Info.plist */,
-				86C72D5E23F763710024C280 /* NetworkManager.swift */,
-				866C9E3D2407DD86006489F9 /* DatabaseService.swift */,
+				866C9E4124085C9A006489F9 /* Services */,
 				86C72D4C23F6D4930024C280 /* Assets.xcassets */,
 			);
 			path = SecondPracticeEpam;

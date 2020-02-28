@@ -14,6 +14,7 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     private var databaseService = DatabaseService()
+    private var networkService = NetworkManager()
     
     private var displayData = [Person]()
     
@@ -32,7 +33,7 @@ class SearchViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        displayData = databaseService.get()
+        //displayData = databaseService.get()
         tableView.reloadData()
     }
     
@@ -65,8 +66,14 @@ extension SearchViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        displayData = displayData.filter ({$0.name.lowercased().contains(searchText.lowercased())})
-        tableView.reloadData()
+        networkService.search(for: searchText, completion: { results in
+            guard let items = results else {
+                return
+            }
+            
+            self.displayData = items.map({ Person(from: $0) })
+            self.tableView.reloadData()
+        })
     }
 }
 
@@ -97,9 +104,9 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let person = Person()
-        person.name = "Name" + " \(indexPath.row)"
-        databaseService.save(object: person)
+        let person = displayData[indexPath.row]
+        //person.name = "Name" + " \(indexPath.row)"
+        //databaseService.save(object: person)
         
         performSegue(withIdentifier: "InfoViewController", sender: indexPath)
     }
@@ -111,7 +118,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
             let item = displayData[indexPath.row]
-            databaseService.remove(object: item)
+            //databaseService.remove(object: item)
             displayData.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }

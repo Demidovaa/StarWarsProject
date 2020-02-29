@@ -14,10 +14,10 @@ class Person: Object {
     @objc dynamic var name: String = ""
     @objc dynamic var height: String = ""
     @objc dynamic var mass: String = ""
-    @objc dynamic var hairColor: String = ""
-    @objc dynamic var skinColor: String = ""
-    @objc dynamic var eyeColor: String = ""
-    @objc dynamic var birthYear: String = ""
+    @objc dynamic var hair: String = ""
+    @objc dynamic var skin: String = ""
+    @objc dynamic var eye: String = ""
+    @objc dynamic var birth: String = ""
     @objc dynamic var gender: String = ""
     
     override public static func primaryKey() -> String? {
@@ -29,10 +29,10 @@ class Person: Object {
         self.name = person.name
         self.height = person.height
         self.mass = person.mass
-        self.hairColor = person.hairColor
-        self.skinColor = person.skinColor
-        self.eyeColor = person.eyeColor
-        self.birthYear = person.birthYear
+        self.hair = person.hair_color
+        self.skin = person.skin_color
+        self.eye = person.eye_color
+        self.birth = person.birth_year
         self.gender = person.gender
     }
 }

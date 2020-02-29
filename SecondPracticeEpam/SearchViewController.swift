@@ -17,6 +17,7 @@ class SearchViewController: UIViewController {
     private var networkService = NetworkManager()
     
     private var displayData = [Person]()
+    private var infoData = Person()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,28 +26,21 @@ class SearchViewController: UIViewController {
         searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
-        //
-        //        let person = Person()
-        //        person.name = "Test"
-        //        databaseService.save(object: person)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //displayData = databaseService.get()
+        navigationItem.title = "Star Wars"
+        displayData = databaseService.get()
         tableView.reloadData()
     }
     
-    private func search(for text: String?) {
-        //networkManager.search(for: text)
-    }
 }
 
 //MARK: SearchBar
 extension SearchViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
-        
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
@@ -70,9 +64,9 @@ extension SearchViewController: UISearchBarDelegate {
             guard let items = results else {
                 return
             }
-            
             self.displayData = items.map({ Person(from: $0) })
             self.tableView.reloadData()
+            
         })
     }
 }
@@ -105,12 +99,21 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let person = displayData[indexPath.row]
-        //person.name = "Name" + " \(indexPath.row)"
-        //databaseService.save(object: person)
+        infoData = person
+        databaseService.save(object: person)
         
-        performSegue(withIdentifier: "InfoViewController", sender: indexPath)
+        performSegue(withIdentifier: "InfoViewController", sender: nil)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "InfoViewController" {
+            if let person = segue.destination as? InfoViewController {
+                person.infoPerson = infoData
+            }
+        }
+    }
+    
+    //MARK: Button "Delete"
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         true
     }
@@ -118,7 +121,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
             let item = displayData[indexPath.row]
-            //databaseService.remove(object: item)
+            databaseService.remove(object: item)
             displayData.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }

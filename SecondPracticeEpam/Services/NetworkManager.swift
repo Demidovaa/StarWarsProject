@@ -16,16 +16,15 @@ import Moya
 // TODO:
 // Rename NetworkManager
 
-
 struct APIPerson: Decodable {
     let name: String
     let height: String
     let mass: String
-    let hairColor: String
-    let skinColor: String
-    let eyeColor: String
-    let birthYear: String
-    let gender: String 
+    let hair_color: String
+    let skin_color: String
+    let eye_color: String
+    let birth_year: String
+    let gender: String
 }
 
 struct PersonSearchResponse: Decodable {
@@ -33,6 +32,7 @@ struct PersonSearchResponse: Decodable {
     let results: [APIPerson]
 }
 
+//
 typealias PersonSearchCompletion = ([APIPerson]?) -> (Void)
 
 class NetworkManager {
@@ -51,6 +51,7 @@ class NetworkManager {
         }
     }
 }
+//
 
 enum PersonSearchAPI {
     case search(String)

@@ -94,13 +94,13 @@
 			isa = PBXGroup;
 			children = (
 				86C72D4323F6D4900024C280 /* AppDelegate.swift */,
+				866C9E3B2407DD3D006489F9 /* Main.storyboard */,
 				86C72D4723F6D4900024C280 /* SearchViewController.swift */,
 				86C72D5723F6EB5F0024C280 /* InfoViewController.swift */,
-				866C9E3B2407DD3D006489F9 /* Main.storyboard */,
-				86C72D4E23F6D4930024C280 /* LaunchScreen.storyboard */,
-				86C72D5123F6D4930024C280 /* Info.plist */,
 				866C9E4124085C9A006489F9 /* Services */,
 				86C72D4C23F6D4930024C280 /* Assets.xcassets */,
+				86C72D4E23F6D4930024C280 /* LaunchScreen.storyboard */,
+				86C72D5123F6D4930024C280 /* Info.plist */,
 			);
 			path = SecondPracticeEpam;
 			sourceTree = "<group>";

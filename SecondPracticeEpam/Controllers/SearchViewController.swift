@@ -10,22 +10,21 @@ import UIKit
 import RealmSwift
 
 class SearchViewController: UIViewController {
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var tableView: UITableView!
     private var databaseService = DatabaseService()
-    private var networkService = NetworkManager()
-    
+    private var networkService = NetworkService()
     private var displayData = [Person]()
     private var infoData = Person()
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        displayData = []
-        
-        searchBar.delegate = self
-        tableView.delegate = self
         tableView.dataSource = self
+        tableView.delegate = self
+        searchBar.delegate = self
+        displayData = []
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -34,7 +33,6 @@ class SearchViewController: UIViewController {
         displayData = databaseService.get()
         tableView.reloadData()
     }
-    
 }
 
 //MARK: SearchBar
@@ -110,20 +108,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             if let person = segue.destination as? InfoViewController {
                 person.infoPerson = infoData
             }
-        }
-    }
-    
-    //MARK: Button "Delete"
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        true
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == .delete) {
-            let item = displayData[indexPath.row]
-            databaseService.remove(object: item)
-            displayData.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
 }

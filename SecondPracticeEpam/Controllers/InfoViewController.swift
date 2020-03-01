@@ -9,7 +9,6 @@
 import UIKit
 
 class InfoViewController: UITableViewController {
-    
     var infoPerson = Person()
     
     @IBOutlet weak var nameCell: UITableViewCell!
@@ -24,7 +23,7 @@ class InfoViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.topItem?.title = ""
-       
+        
         nameCell.detailTextLabel?.text = infoPerson.name
         heightCell.detailTextLabel?.text = infoPerson.height
         massCell.detailTextLabel?.text = infoPerson.mass

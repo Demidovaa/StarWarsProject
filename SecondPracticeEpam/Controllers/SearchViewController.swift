@@ -7,17 +7,16 @@
 //
 
 import UIKit
-import RealmSwift
 
 class SearchViewController: UIViewController {
     private var databaseService = DatabaseService()
     private var networkService = NetworkService()
     private var displayData = [Person]()
-    private var infoData = Person()
+    private var selectedPerson: Person?
     
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var spinner: UIActivityIndicatorView!
+    @IBOutlet private weak var searchBar: UISearchBar!
+    @IBOutlet private weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,8 +29,20 @@ class SearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.title = "Star Wars"
-        displayData = databaseService.get()
+        displayData = databaseService.getInfoPerson()
         tableView.reloadData()
+    }
+    
+    private func search(for text: String?) {
+        self.spinner.startAnimating()
+        networkService.search(for: text ?? "", completion: { results in
+            guard let items = results else {
+                return
+            }
+            self.spinner.stopAnimating()
+            self.displayData = items.map({ Person(from: $0) })
+            self.tableView.reloadData()
+        })
     }
 }
 
@@ -43,7 +54,6 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(false, animated: true)
-        //activityIndicator.stopAnimating()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -53,19 +63,11 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
         searchBar.searchTextField.text = nil
-        displayData = []
         tableView.reloadData()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        networkService.search(for: searchText, completion: { results in
-            guard let items = results else {
-                return
-            }
-            self.displayData = items.map({ Person(from: $0) })
-            self.tableView.reloadData()
-            
-        })
+        search(for: searchText)
     }
 }
 
@@ -97,8 +99,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let person = displayData[indexPath.row]
-        infoData = person
         databaseService.save(object: person)
+        selectedPerson = person
         
         performSegue(withIdentifier: "InfoViewController", sender: nil)
     }
@@ -106,7 +108,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "InfoViewController" {
             if let person = segue.destination as? InfoViewController {
-                person.infoPerson = infoData
+                person.infoPerson = selectedPerson
             }
         }
     }

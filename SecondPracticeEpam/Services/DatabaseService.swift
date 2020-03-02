@@ -22,7 +22,7 @@ class DatabaseService {
         }
     }
     
-    func get() -> [Person] {
+    func getInfoPerson() -> [Person] {
         do {
             let realm = try Realm()
             let obj = realm.objects(Person.self)

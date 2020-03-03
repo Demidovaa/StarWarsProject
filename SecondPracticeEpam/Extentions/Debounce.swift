@@ -8,16 +8,12 @@
 
 import Foundation
 
-class Debouncer {
-    
-    var currentWorkItem: DispatchWorkItem?
+fileprivate var currentWorkItem: DispatchWorkItem?
 
-    func debounce(delay: DispatchTimeInterval, action: @escaping ((String) -> Void)) -> (String) -> Void {
-        return {  [weak self] parameter in
-            guard let self = self else { return }
-            self.currentWorkItem?.cancel()
-            self.currentWorkItem = DispatchWorkItem { action(parameter) }
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: self.currentWorkItem!)
-        }
+func debounce(delay: DispatchTimeInterval, action: @escaping ((String) -> Void)) -> (String) -> Void {
+    return { parameter in
+        currentWorkItem?.cancel()
+        currentWorkItem = DispatchWorkItem { action(parameter) }
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: currentWorkItem!)
     }
 }

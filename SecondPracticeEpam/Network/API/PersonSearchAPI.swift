@@ -42,3 +42,9 @@ extension PersonSearchAPI: TargetType {
         return ["Content-type": "application/json"]
     }
 }
+
+extension PersonSearchAPI: MoyaCacheable {
+    var cachePolicy: MoyaCacheablePolicy {
+        return .returnCacheDataElseLoad
+    }
+}

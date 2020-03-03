@@ -11,6 +11,7 @@ PODS:
     - Realm (= 4.3.2)
 
 DEPENDENCIES:
+  - Alamofire
   - Moya
   - RealmSwift
 
@@ -27,6 +28,6 @@ SPEC CHECKSUMS:
   Realm: 5e92902e2875dff4bb0fd02f67bb737c3d5db2bc
   RealmSwift: 9a360fc7bae04fc2e308a34fbd899d5faa2d6b22
 
-PODFILE CHECKSUM: 09ad47b9d1f2fa97efa75ca40158babac07e35c0
+PODFILE CHECKSUM: f251d6d6ad96d6a419bead9feaa9f3a2a98f1c79
 
 COCOAPODS: 1.8.4

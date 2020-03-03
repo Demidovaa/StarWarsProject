@@ -14,6 +14,8 @@ class SearchViewController: UIViewController {
     private var displayData = [Person]()
     private var selectedPerson: Person?
     
+    private var searchHandler: ((String) -> Void)?
+    
     @IBOutlet private weak var spinner: UIActivityIndicatorView!
     @IBOutlet private weak var searchBar: UISearchBar!
     @IBOutlet private weak var tableView: UITableView!
@@ -24,6 +26,9 @@ class SearchViewController: UIViewController {
         tableView.delegate = self
         searchBar.delegate = self
         displayData = []
+        
+        let debouncer = Debouncer()
+        searchHandler = debouncer.debounce(delay: .seconds(1), action: {searchText in self.search(for: searchText)})
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,7 +73,8 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if !searchText.isEmpty {
-            search(for: searchText)
+            //search(for: searchText)
+            searchHandler?(searchText)
         }
     }
 }

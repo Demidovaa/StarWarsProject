@@ -19,6 +19,7 @@
 		86C72D5823F6EB5F0024C280 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C72D5723F6EB5F0024C280 /* InfoViewController.swift */; };
 		86EA829D240C23EC001D16FB /* APIPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86EA829C240C23EC001D16FB /* APIPerson.swift */; };
 		86EA82A0240C24F8001D16FB /* PersonSearchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86EA829F240C24F8001D16FB /* PersonSearchAPI.swift */; };
+		86EA82AD240E7671001D16FB /* Debounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86EA82AC240E7671001D16FB /* Debounce.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		86EA829F240C24F8001D16FB /* PersonSearchAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonSearchAPI.swift; sourceTree = "<group>"; };
 		86EA82A2240D6CC9001D16FB /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		86EA82A9240D6D0A001D16FB /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		86EA82AC240E7671001D16FB /* Debounce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debounce.swift; sourceTree = "<group>"; };
 		9AABEDEDB9BC622F31965F8A /* libPods-SecondPracticeEpam.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SecondPracticeEpam.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -73,6 +75,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		86501B76240EAB5200F959E0 /* Extentions */ = {
+			isa = PBXGroup;
+			children = (
+				86EA82AC240E7671001D16FB /* Debounce.swift */,
+			);
+			path = Extentions;
+			sourceTree = "<group>";
+		};
 		866C9E4124085C9A006489F9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +115,7 @@
 			children = (
 				86C72D4323F6D4900024C280 /* AppDelegate.swift */,
 				866C9E3B2407DD3D006489F9 /* Main.storyboard */,
+				86501B76240EAB5200F959E0 /* Extentions */,
 				86EA82A1240C3928001D16FB /* Controllers */,
 				86EA829E240C2480001D16FB /* Network */,
 				86EA829B240C117F001D16FB /* Models */,
@@ -236,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				868144B7240BF9CE00A2A3EE /* Person.swift in Sources */,
+				86EA82AD240E7671001D16FB /* Debounce.swift in Sources */,
 				86A2A72E23F765FA004C25B6 /* NetworkService.swift in Sources */,
 				866C9E3E2407DD86006489F9 /* DatabaseService.swift in Sources */,
 				86C72D4823F6D4900024C280 /* SearchViewController.swift in Sources */,

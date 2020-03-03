@@ -33,9 +33,9 @@ class SearchViewController: UIViewController {
         tableView.reloadData()
     }
     
-    private func search(for text: String?) {
-        self.spinner.startAnimating()
-        networkService.search(for: text ?? "", completion: { results in
+    private func search(for text: String) {
+        spinner.startAnimating()
+        networkService.search(for: text, completion: { results in
             guard let items = results else {
                 return
             }
@@ -67,7 +67,9 @@ extension SearchViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        search(for: searchText)
+        if !searchText.isEmpty {
+            search(for: searchText)
+        }
     }
 }
 

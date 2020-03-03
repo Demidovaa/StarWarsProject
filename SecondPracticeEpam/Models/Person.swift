@@ -10,7 +10,6 @@ import Foundation
 import RealmSwift
 
 class Person: Object {
-    @objc dynamic var id = UUID().uuidString
     @objc dynamic var name: String = ""
     @objc dynamic var height: String = ""
     @objc dynamic var mass: String = ""
@@ -21,7 +20,7 @@ class Person: Object {
     @objc dynamic var gender: String = ""
     
     override public static func primaryKey() -> String? {
-        return "id"
+        return "name"
     }
     
     convenience init(from person: APIPerson) {
@@ -29,10 +28,10 @@ class Person: Object {
         self.name = person.name
         self.height = person.height
         self.mass = person.mass
-        self.hair = person.hair_color
-        self.skin = person.skin_color
-        self.eye = person.eye_color
-        self.birth = person.birth_year
+        self.hair = person.hair
+        self.skin = person.skin
+        self.eye = person.eye
+        self.birth = person.birth
         self.gender = person.gender
     }
 }

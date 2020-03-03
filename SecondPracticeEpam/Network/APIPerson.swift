@@ -12,11 +12,22 @@ struct APIPerson: Decodable {
     let name: String
     let height: String
     let mass: String
-    let hair_color: String
-    let skin_color: String
-    let eye_color: String
-    let birth_year: String
+    let hair: String
+    let skin: String
+    let eye: String
+    let birth: String
     let gender: String
+    
+    enum CodingKeys: String, CodingKey {
+        case name
+        case height
+        case mass
+        case hair = "hair_color"
+        case skin = "skin_color"
+        case eye = "eye_color"
+        case birth = "birth_year"
+        case gender
+    }
 }
 
 struct PersonSearchResponse: Decodable {

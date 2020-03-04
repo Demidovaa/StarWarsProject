@@ -10,8 +10,6 @@
 		5FE8AF27154285F0633DA073 /* libPods-SecondPracticeEpam.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AABEDEDB9BC622F31965F8A /* libPods-SecondPracticeEpam.a */; };
 		86501B78240F01FC00F959E0 /* MoyaCachable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86501B77240F01FC00F959E0 /* MoyaCachable.swift */; };
 		86501B7A240F022000F959E0 /* MoyaCacheablePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86501B79240F022000F959E0 /* MoyaCacheablePlugin.swift */; };
-		86501B7D240F0F6400F959E0 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86501B7C240F0F6400F959E0 /* NetworkProvider.swift */; };
-		86501B7F240F101800F959E0 /* DefaultAlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86501B7E240F101800F959E0 /* DefaultAlamofireManager.swift */; };
 		866C9E3C2407DD3D006489F9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 866C9E3B2407DD3D006489F9 /* Main.storyboard */; };
 		866C9E3E2407DD86006489F9 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866C9E3D2407DD86006489F9 /* DatabaseService.swift */; };
 		868144B7240BF9CE00A2A3EE /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868144B6240BF9CE00A2A3EE /* Person.swift */; };
@@ -31,8 +29,6 @@
 		725300B52CAAFDB85E58EE80 /* Pods-SecondPracticeEpam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SecondPracticeEpam.release.xcconfig"; path = "Pods/Target Support Files/Pods-SecondPracticeEpam/Pods-SecondPracticeEpam.release.xcconfig"; sourceTree = "<group>"; };
 		86501B77240F01FC00F959E0 /* MoyaCachable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaCachable.swift; sourceTree = "<group>"; };
 		86501B79240F022000F959E0 /* MoyaCacheablePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaCacheablePlugin.swift; sourceTree = "<group>"; };
-		86501B7C240F0F6400F959E0 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
-		86501B7E240F101800F959E0 /* DefaultAlamofireManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAlamofireManager.swift; sourceTree = "<group>"; };
 		866C9E3B2407DD3D006489F9 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		866C9E3D2407DD86006489F9 /* DatabaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		868144B6240BF9CE00A2A3EE /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
@@ -166,8 +162,6 @@
 			children = (
 				86501B80240F102D00F959E0 /* API */,
 				86501B7B240F022800F959E0 /* Cache */,
-				86501B7C240F0F6400F959E0 /* NetworkProvider.swift */,
-				86501B7E240F101800F959E0 /* DefaultAlamofireManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -279,10 +273,8 @@
 				86A2A72E23F765FA004C25B6 /* NetworkService.swift in Sources */,
 				866C9E3E2407DD86006489F9 /* DatabaseService.swift in Sources */,
 				86C72D4823F6D4900024C280 /* SearchViewController.swift in Sources */,
-				86501B7D240F0F6400F959E0 /* NetworkProvider.swift in Sources */,
 				86EA829D240C23EC001D16FB /* APIPerson.swift in Sources */,
 				86501B7A240F022000F959E0 /* MoyaCacheablePlugin.swift in Sources */,
-				86501B7F240F101800F959E0 /* DefaultAlamofireManager.swift in Sources */,
 				86C72D4423F6D4900024C280 /* AppDelegate.swift in Sources */,
 				86C72D5823F6EB5F0024C280 /* InfoViewController.swift in Sources */,
 				86501B78240F01FC00F959E0 /* MoyaCachable.swift in Sources */,

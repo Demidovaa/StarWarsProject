@@ -8,5 +8,5 @@ target 'SecondPracticeEpam' do
   # Pods for SecondPracticeEpam
   pod 'RealmSwift'
   pod 'Moya'
-  pod 'Alamofire'
+  
 end

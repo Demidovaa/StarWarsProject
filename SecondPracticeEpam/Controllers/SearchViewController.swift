@@ -116,4 +116,19 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
+    
+    //MARK: Button "Delete"
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
+        if (editingStyle == .delete) {
+            let item = displayData[indexPath.row]
+            databaseService.remove(object: item)
+            displayData.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
 }

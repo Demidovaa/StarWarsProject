@@ -9,20 +9,25 @@
 import Foundation
 import Moya
 
-typealias PersonSearchCompletion = ([APIPerson]?) -> (Void)
+enum RequestResult {
+    case success([APIPerson]?)
+    case failure
+}
+
+typealias PersonSearchCompletion = (RequestResult) -> (Void)
 
 class NetworkService {
-    let apiProvider = MoyaProvider<PersonSearchAPI>(plugins: [NetworkLoggerPlugin(),MoyaCacheablePlugin()])
+    
+    let apiProvider = MoyaProvider<PersonSearchAPI>(plugins: [NetworkLoggerPlugin(), MoyaCacheablePlugin()])
     
     func search(for text: String, completion: @escaping PersonSearchCompletion) {
         apiProvider.request(.search(text)) { result in
             switch result {
             case .success(let response):
-                let data = try? JSONDecoder().decode(PersonSearchResponse.self,
-                                                     from: response.data)
-                completion(data?.results)
+                let data = try? JSONDecoder().decode(PersonSearchResponse.self, from: response.data)
+                completion(.success(data?.results))
             case .failure:
-                completion(nil)
+                completion(.failure)
             }
         }
     }

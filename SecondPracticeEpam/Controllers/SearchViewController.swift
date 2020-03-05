@@ -12,7 +12,7 @@ class SearchViewController: UIViewController {
     private var searchHandler: ((String) -> Void)?
     private var databaseService = DatabaseService()
     private var networkService = NetworkService()
-    private var displayData = [Person]()
+    private var displayData: [Person]?
     private var selectedPerson: Person?
     
     @IBOutlet private weak var spinner: UIActivityIndicatorView!
@@ -25,7 +25,9 @@ class SearchViewController: UIViewController {
         tableView.delegate = self
         searchBar.delegate = self
         displayData = []
-        searchHandler = debounce(delay: .seconds(1), action: {searchText in self.search(for: searchText)})
+        searchHandler = debounce(delay: .seconds(1)) { searchText in
+            self.search(for: searchText)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,14 +39,17 @@ class SearchViewController: UIViewController {
     
     private func search(for text: String) {
         spinner.startAnimating()
-        networkService.search(for: text, completion: { results in
-            guard let items = results else {
-                return
+        networkService.search(for: text) { result in
+            switch result {
+            case .success(let results):
+                self.displayData = results?.map{ Person(from: $0) }
+            case .failure:
+                self.displayData = nil
             }
+            
             self.spinner.stopAnimating()
-            self.displayData = items.map({ Person(from: $0) })
             self.tableView.reloadData()
-        })
+        }
     }
 }
 
@@ -82,14 +87,14 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return displayData.count
+        return displayData?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-        let item = displayData[indexPath.row]
-        cell.textLabel?.text = item.name
+        let item = displayData?[indexPath.row]
+        cell.textLabel?.text = item?.name
         cell.accessoryType = .disclosureIndicator
         
         return cell
@@ -102,9 +107,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let person = displayData[indexPath.row]
-        databaseService.save(object: person)
-        selectedPerson = person
+        if let person = displayData?[indexPath.row] {
+            databaseService.save(object: person)
+            selectedPerson = person
+        }
         
         performSegue(withIdentifier: "InfoViewController", sender: nil)
     }
@@ -125,10 +131,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle,
                    forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
-            let item = displayData[indexPath.row]
-            databaseService.remove(object: item)
-            displayData.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            if let item = displayData?[indexPath.row] {
+                databaseService.remove(object: item)
+                displayData?.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
         }
     }
 }

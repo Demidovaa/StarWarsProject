@@ -15,6 +15,14 @@ class SearchViewController: UIViewController {
     private var displayData: [Person]?
     private var selectedPerson: Person?
     
+    private enum Title {
+        static let error = "Error"
+        static let notFound = "Not Found"
+        static let ok = "OK"
+        static let nameApp = "Star Wars"
+        static let result = "Result"
+    }
+    
     @IBOutlet private weak var spinner: UIActivityIndicatorView!
     @IBOutlet private weak var searchBar: UISearchBar!
     @IBOutlet private weak var tableView: UITableView!
@@ -32,18 +40,26 @@ class SearchViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationItem.title = "Star Wars"
+        navigationItem.title = Title.nameApp
         displayData = databaseService.getInfoPerson()
         tableView.reloadData()
     }
     
     private func search(for text: String) {
         spinner.startAnimating()
-        networkService.search(for: text) { result in
+        networkService.search(for: text) { result, count  in
             switch result {
             case .success(let results):
                 self.displayData = results?.map{ Person(from: $0) }
+                if count == 0 {
+                    let alert = UIAlertController(title: Title.notFound, message: nil, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: Title.ok, style: .default, handler: {(UIAlertAction) in }))
+                    self.present(alert, animated: true)
+                }
             case .failure:
+                let alert = UIAlertController(title: Title.error, message: nil, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: Title.ok, style: .default, handler: {(UIAlertAction) in }))
+                self.present(alert, animated: true)
                 self.displayData = nil
             }
             
@@ -83,7 +99,7 @@ extension SearchViewController: UISearchBarDelegate {
 //MARK: TableView
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Result"
+        return Title.result
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

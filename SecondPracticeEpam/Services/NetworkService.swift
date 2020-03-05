@@ -14,7 +14,7 @@ enum RequestResult {
     case failure
 }
 
-typealias PersonSearchCompletion = (RequestResult) -> (Void)
+typealias PersonSearchCompletion = (RequestResult, Int) -> (Void)
 
 class NetworkService {
     let apiProvider = MoyaProvider<PersonSearchAPI>(plugins: [NetworkLoggerPlugin(), MoyaCacheablePlugin()])
@@ -24,9 +24,9 @@ class NetworkService {
             switch result {
             case .success(let response):
                 let data = try? JSONDecoder().decode(PersonSearchResponse.self, from: response.data)
-                completion(.success(data?.results))
+                completion(.success(data?.results), data?.count ?? 0)
             case .failure:
-                completion(.failure)
+                completion(.failure, 0)
             }
         }
     }

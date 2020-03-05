@@ -17,7 +17,6 @@ enum RequestResult {
 typealias PersonSearchCompletion = (RequestResult) -> (Void)
 
 class NetworkService {
-    
     let apiProvider = MoyaProvider<PersonSearchAPI>(plugins: [NetworkLoggerPlugin(), MoyaCacheablePlugin()])
     
     func search(for text: String, completion: @escaping PersonSearchCompletion) {

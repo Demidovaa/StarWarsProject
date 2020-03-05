@@ -12,8 +12,13 @@ class SearchViewController: UIViewController {
     private var searchHandler: ((String) -> Void)?
     private var databaseService = DatabaseService()
     private var networkService = NetworkService()
-    private var displayData: [Person]?
     private var selectedPerson: Person?
+    private var tableHeader: String?
+    private var displayData: [Person]? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     private enum Title {
         static let error = "Error"
@@ -21,6 +26,7 @@ class SearchViewController: UIViewController {
         static let ok = "OK"
         static let nameApp = "Star Wars"
         static let result = "Result"
+        static let history = "History"
     }
     
     @IBOutlet private weak var spinner: UIActivityIndicatorView!
@@ -29,20 +35,20 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = Title.nameApp
         tableView.dataSource = self
         tableView.delegate = self
         searchBar.delegate = self
-        displayData = []
         searchHandler = debounce(delay: .seconds(1)) { searchText in
             self.search(for: searchText)
         }
+        
+        showRecents()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationItem.title = Title.nameApp
+    private func showRecents() {
         displayData = databaseService.getInfoPerson()
-        tableView.reloadData()
+        tableHeader = Title.history
     }
     
     private func search(for text: String) {
@@ -50,22 +56,26 @@ class SearchViewController: UIViewController {
         networkService.search(for: text) { result, count  in
             switch result {
             case .success(let results):
+                self.tableHeader = Title.result
                 self.displayData = results?.map{ Person(from: $0) }
+                
                 if count == 0 {
-                    let alert = UIAlertController(title: Title.notFound, message: nil, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: Title.ok, style: .default, handler: {(UIAlertAction) in }))
-                    self.present(alert, animated: true)
+                    self.showAlert(with: Title.notFound)
+                    self.showRecents()
                 }
             case .failure:
-                let alert = UIAlertController(title: Title.error, message: nil, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: Title.ok, style: .default, handler: {(UIAlertAction) in }))
-                self.present(alert, animated: true)
-                self.displayData = nil
+                self.showAlert(with: Title.error)
+                self.showRecents()
             }
             
             self.spinner.stopAnimating()
-            self.tableView.reloadData()
         }
+    }
+    
+    private func showAlert(with title: String) {
+        let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Title.ok, style: .cancel))
+        self.present(alert, animated: true)
     }
 }
 
@@ -86,12 +96,13 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
         searchBar.searchTextField.text = nil
-        tableView.reloadData()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if !searchText.isEmpty {
             searchHandler?(searchText)
+        } else {
+            showRecents()
         }
     }
 }
@@ -99,7 +110,7 @@ extension SearchViewController: UISearchBarDelegate {
 //MARK: TableView
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return Title.result
+        return tableHeader
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -107,7 +118,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
         let item = displayData?[indexPath.row]
         cell.textLabel?.text = item?.name
@@ -150,7 +160,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             if let item = displayData?[indexPath.row] {
                 databaseService.remove(object: item)
                 displayData?.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .automatic)
             }
         }
     }

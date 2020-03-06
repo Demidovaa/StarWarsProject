@@ -15,7 +15,7 @@ DEPENDENCIES:
   - RealmSwift
 
 SPEC REPOS:
-  trunk:
+  https://github.com/cocoapods/specs.git:
     - Alamofire
     - Moya
     - Realm
@@ -29,4 +29,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 4c1ca3d34fc40944e79307f3a416bbee2e20de20
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.5.2

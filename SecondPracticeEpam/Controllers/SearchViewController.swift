@@ -27,6 +27,7 @@ class SearchViewController: UIViewController {
         static let nameApp = "Star Wars"
         static let result = "Result"
         static let history = "History"
+        static let alertMassage = "Try again"
     }
     
     @IBOutlet private weak var spinner: UIActivityIndicatorView!
@@ -63,11 +64,11 @@ class SearchViewController: UIViewController {
                 self.displayData = results?.map{ Person(from: $0) }
                 
                 if count == 0 {
-                    self.showAlert(with: Title.notFound)
+                    self.showAlert(with: Title.notFound, massage: Title.alertMassage)
                     self.showRecents()
                 }
             case .failure:
-                self.showAlert(with: Title.error)
+                self.showAlert(with: Title.error, massage: Title.alertMassage)
                 self.showRecents()
             }
             
@@ -75,8 +76,8 @@ class SearchViewController: UIViewController {
         }
     }
     
-    private func showAlert(with title: String) {
-        let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+    private func showAlert(with textTitle: String, massage text: String) {
+        let alert = UIAlertController(title: textTitle, message: text, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Title.ok, style: .cancel))
         self.present(alert, animated: true)
     }

@@ -35,7 +35,6 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = Title.nameApp
         tableView.dataSource = self
         tableView.delegate = self
         searchBar.delegate = self
@@ -44,6 +43,10 @@ class SearchViewController: UIViewController {
         }
         
         showRecents()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        navigationItem.title = Title.nameApp
     }
     
     private func showRecents() {

@@ -13,7 +13,10 @@ fileprivate var currentWorkItem: DispatchWorkItem?
 func debounce(delay: DispatchTimeInterval, action: @escaping ((String) -> Void)) -> (String) -> Void {
     return { parameter in
         currentWorkItem?.cancel()
-        currentWorkItem = DispatchWorkItem { action(parameter) }
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: currentWorkItem!)
+        let workItem = DispatchWorkItem {
+            action(parameter)
+        }
+        currentWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: workItem)
     }
 }

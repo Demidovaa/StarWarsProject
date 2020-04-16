@@ -22,7 +22,7 @@ class InfoViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.topItem?.title = ""
+        navigationController?.navigationBar.topItem?.title = nil
         
         nameCell.detailTextLabel?.text = infoPerson?.name
         heightCell.detailTextLabel?.text = infoPerson?.height
